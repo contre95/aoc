@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"encoding/json"
 	"fmt"
 	"os"
 	"strconv"
@@ -50,14 +51,8 @@ func ruleParser(rule string) map[string][]Bag {
 	parsedRule[sliced_rule[0]] = bags
 	return parsedRule
 }
-func inQueue(a string, list []string) bool {
-	for _, b := range list {
-		if b == a {
-			return true
-		}
-	}
-	return false
-}
+
+
 func rulesParser(path string) []map[string][]Bag {
 	file, err := os.Open(path)
 	check(err)
@@ -93,13 +88,16 @@ func part1(rules []map[string][]Bag, color string) int {
 	}
 	return c
 }
+
 func main() {
-	//rules := rulesParser("example.txt")
-	rules := rulesParser("input.txt")
-	//rulesJSON, err := json.Marshal(rules)
-	//check(err)
-	p1 := part1(rules, "shiny gold")
-	fmt.Printf("Part 1: %d\n", p1)
-	//fmt.Printf("%+v \n", rules)
+	rules := rulesParser("example.txt")
+	//rules := rulesParser("input.txt")
+	rulesJSON, err := json.Marshal(rules)
+	check(err)
+	fmt.Printf("%+v \n", string(rulesJSON))
+
+	//p1 := part1(rules, "shiny gold")
+	if _, ok :=
+	//fmt.Printf("\n", p1)
 	//fmt.Printf("%#v \n", rules)
 }
