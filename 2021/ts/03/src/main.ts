@@ -1,8 +1,5 @@
 import { readFileSync } from "fs";
 
-
-type Counter = { [id: string]: number }
-
 const part1 = (): number => {
   const input: string[] = readFileSync("src/input", "utf-8").toString().split("\n");
 
