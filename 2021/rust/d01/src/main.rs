@@ -2,7 +2,6 @@ use std::fs;
 use std::io::{BufRead, BufReader};
 
 fn lines_to_vector(path: &str) -> Vec<String> {
-    println!("{}", path);
     let mut input: Vec<String> = vec![];
     let file = fs::File::open(path).expect("Error while reading the file");
     let reader = BufReader::new(file);
@@ -17,7 +16,6 @@ fn part1()-> u32 {
     let input = lines_to_vector("input");
     let mut count = 0;
     let mut increase : u32 = 0;
-    println!("Len {}", input.len());
     loop {
         let n1: u32 = input[count].parse().expect("Could not parse");
         let n2: u32 = input[count + 1].parse().expect("Could not parse");
