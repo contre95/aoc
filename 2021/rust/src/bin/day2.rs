@@ -12,12 +12,16 @@ fn lines_to_vector(path: &str) -> Vec<String> {
     return input;
 }
 
-pub fn part1() -> u32 {  
-    let input = lines_to_vector("src/day_two/testput");
+pub fn part1() -> u32 {
+    let input = lines_to_vector("./inputs/testput_2");
     for vector in input {
-        let direction = vector.split(' ');
-        println!("{:?}",direction)
+        println!("{}", vector)
     }
     21
 }
 
+fn main() {
+    println!("Day2");
+    println!("Part1: {}", part1());
+    //println!("Part2: {}", part2());
+}

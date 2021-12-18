@@ -7,7 +7,10 @@ fn lines_to_vector(path: &str) -> Vec<u32> {
     let reader = BufReader::new(file);
     for line in reader.lines() {
         let line = line.expect("Unable to read line");
-        input.push(line.parse().expect("Could not parse string to u32"))
+        input.push(line
+                   .parse()
+                   .expect("Could not parse string to u32")
+                   )
     }
     return input;
 }
@@ -42,4 +45,10 @@ pub fn part2() -> u32 {
         count += 1;
     }
     increase
+}
+
+fn main() {
+    println!("Day1");
+    println!("Part1: {}", part1());
+    println!("Part2: {}", part2());
 }
