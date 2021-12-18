@@ -13,7 +13,7 @@ fn lines_to_vector(path: &str) -> Vec<u32> {
 }
 
 pub fn part1() -> u32 {
-    let input = lines_to_vector("src/day_one/input");
+    let input = lines_to_vector("./inputs/input_1");
     let mut count = 0;
     let mut increase: u32 = 0;
     loop {
@@ -30,7 +30,7 @@ pub fn part1() -> u32 {
 }
 
 pub fn part2() -> u32 {
-    let input = lines_to_vector("src/day_one/input");
+    let input = lines_to_vector("./inputs/input_1");
     let mut count = 0;
     let mut increase: u32 = 0;
     while count + 4 <= input.len() {
