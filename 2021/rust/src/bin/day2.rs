@@ -9,7 +9,7 @@ fn lines_to_vector(path: &str) -> Vec<String> {
         let line = line.expect("Unable to read line");
         input.push(line)
     }
-    return input;
+    input
 }
 
 pub fn part1() -> u32 {

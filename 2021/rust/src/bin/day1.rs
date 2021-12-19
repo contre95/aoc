@@ -7,12 +7,9 @@ fn lines_to_vector(path: &str) -> Vec<u32> {
     let reader = BufReader::new(file);
     for line in reader.lines() {
         let line = line.expect("Unable to read line");
-        input.push(line
-                   .parse()
-                   .expect("Could not parse string to u32")
-                   )
+        input.push(line.parse().expect("Could not parse string to u32"))
     }
-    return input;
+    input
 }
 
 pub fn part1() -> u32 {
