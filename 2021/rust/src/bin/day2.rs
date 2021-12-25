@@ -13,10 +13,10 @@ fn lines_to_vector(path: &str) -> Vec<String> {
     input
 }
 
-pub fn part1() -> u32 {
-    let input = lines_to_vector("./inputs/testput_2");
-    
-    let directions : HashMap<&str,i32> = HashMap::new();
+pub fn part1() -> i32 {
+    let input = lines_to_vector("./inputs/input_2");
+    let mut directions = HashMap::new();
+
     for vector in input {
         let vector: Vec<&str> = vector.split(' ').collect();
         let mut direc: &str = vector[0];
@@ -25,15 +25,45 @@ pub fn part1() -> u32 {
             module = -module;
             direc = "down";
         }
-        //let direc_wrong: Vec<String> = vector.split(' ').map(|x| x.to_string()).collect(); // Just if I wanted them to be a string.
-        println!("{} - {}", direc, module);
+        // What's the cost of this to_owned(), do i have choice?
+        let count = directions.entry(direc.to_owned()).or_insert(0);
+        *count += module
     }
-    21
+    directions["forward"] * directions["down"]
+}
+
+pub fn part2() -> i32 {
+    let input = lines_to_vector("./inputs/input_2");
+    let mut directions = HashMap::new();
+
+    for vector in input {
+        let vector: Vec<&str> = vector.split(' ').collect();
+        let mut direc: &str = vector[0];
+        let mut module: i32 = vector[1].parse().expect("Could not parse the module");
+        if direc == "up" {
+            module = -module;
+            direc = "down";
+        }
+        // What's the cost of this to_owned(), do i have choice?
+        if direc == "down" {
+            let count = directions.entry("aim").or_insert(0);
+            *count += module;
+        }
+        //let count = directions.entry(direc.to_owned()).or_insert(0);
+        //*count+=module;
+        if direc == "forward" {
+            if directions.contains_key("aim") {
+                *directions.entry("down").or_insert(0) = module * *directions.get("aim").unwrap();
+            }
+            *directions.entry("forward").or_insert(0) += module
+        }
+    }
+    directions["forward"] * directions["down"]
 }
 
 #[allow(dead_code)]
 fn main() {
     println!("Day2");
     println!("Part1: {}", part1());
-    //println!("Part2: {}", part2());
+    println!("Part2: {}", part2());
 }
