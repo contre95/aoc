@@ -53,11 +53,12 @@ pub fn part2() -> i32 {
         //*count+=module;
         if direc == "forward" {
             if directions.contains_key("aim") {
-                *directions.entry("down").or_insert(0) = module * *directions.get("aim").unwrap();
+                *directions.entry("down").or_insert(0) += module * *directions.get("aim").unwrap();
             }
             *directions.entry("forward").or_insert(0) += module
         }
     }
+    println!("{} - {}",directions["forward"], directions["down"]);
     directions["forward"] * directions["down"]
 }
 
