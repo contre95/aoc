@@ -19,8 +19,8 @@ func fileToA(filePath string) [][]int {
 	for fileScanner.Scan() {
 		line := strings.Split(fileScanner.Text(), ",")
 		p1a, _ := strconv.Atoi(strings.Split(line[0], "-")[0])
-		p1b, _ := strconv.Atoi(strings.Split(line[0], "-")[1])
 		p2a, _ := strconv.Atoi(strings.Split(line[1], "-")[0])
+		p1b, _ := strconv.Atoi(strings.Split(line[0], "-")[1])
 		p2b, _ := strconv.Atoi(strings.Split(line[1], "-")[1])
 		a = append(a, []int{p1a, p1b, p2a, p2b})
 	}
@@ -34,10 +34,7 @@ func main() {
 	input := fileToA(os.Args[1])
 	count := 0
 	for _, v := range input {
-		if v[2] >= v[0] && v[3] <= v[1] {
-			count += 1
-		}
-		if v[2] <= v[0] && v[3] >= v[1] {
+		if (v[2] >= v[0] && v[3] <= v[1]) || (v[2] <= v[0] && v[3] >= v[1]) {
 			count += 1
 		}
 	}
