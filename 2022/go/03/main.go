@@ -30,7 +30,35 @@ func priority(c rune) int {
 	return int(c) - 96
 }
 
-func part() {
+func part2() {
+	input := fileToA(os.Args[1])
+	prioritySum := 0
+	for i := 0; i < len(input)-3; i += 3 {
+		Group1 := map[rune]bool{}
+		Group2 := map[rune]bool{}
+		Group3 := map[rune]bool{}
+		for _, item := range input[i] {
+			Group1[item] = true
+		}
+		for _, item := range input[i+1] {
+			Group2[item] = true
+		}
+		for _, item := range input[i+2] {
+			Group3[item] = true
+		}
+
+		for item := range Group3 {
+			if _, oka := Group1[item]; oka {
+				if _, oki := Group2[item]; oki {
+					prioritySum += priority(item)
+				}
+			}
+		}
+	}
+	fmt.Println(prioritySum)
+}
+
+func part1() {
 	input := fileToA(os.Args[1])
 	prioritySum := 0
 	for _, rucksack := range input {
@@ -52,5 +80,6 @@ func part() {
 }
 
 func main() {
-	part()
+	part1()
+	part2()
 }
