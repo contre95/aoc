@@ -32,11 +32,16 @@ func fileToA(filePath string) [][]int {
 
 func main() {
 	input := fileToA(os.Args[1])
-	count := 0
+	count1 := 0
+	count2 := 0
 	for _, v := range input {
 		if (v[2] >= v[0] && v[3] <= v[1]) || (v[2] <= v[0] && v[3] >= v[1]) {
-			count += 1
+			count1 += 1
+		}
+		if v[1] >= v[2] && v[3] >= v[0] {
+			count2 += 1
 		}
 	}
-	fmt.Println(count)
+	fmt.Println(count1)
+	fmt.Println(count2)
 }
