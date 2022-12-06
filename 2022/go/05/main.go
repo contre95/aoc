@@ -51,6 +51,7 @@ func inputParser(filePath string) (map[int]string, [][]int) {
 }
 
 func main() {
+	// Part 1
 	stacks, ops := inputParser(os.Args[1])
 	for _, op := range ops {
 		move := op[0]
@@ -63,8 +64,23 @@ func main() {
 		}
 		stacks[from] = stacks[from][:len(stacks[from])-move]
 	}
-	for _, stack := range stacks {
-		fmt.Printf("%c", stack[len(stack)-1])
+	for i := 1; i <= len(stacks); i++ {
+		fmt.Printf("%c", stacks[i][len(stacks[i])-1])
 	}
+	fmt.Println()
 
+	// Part 2
+	stacks2, ops := inputParser(os.Args[1])
+	for _, op := range ops {
+		move := op[0]
+		from := op[1]
+		to := op[2]
+		//fmt.Printf("%v :\n Move %d from %d (%v) to %d (%v) \n", stacks2, move, from, stacks2[from], to, stacks2[to])
+		stacks2[to] += string(stacks2[from][len(stacks2[from])-move:])
+		stacks2[from] = stacks2[from][:len(stacks2[from])-move]
+	}
+	for i := 1; i <= len(stacks2); i++ {
+		fmt.Printf("%c", stacks2[i][len(stacks2[i])-1])
+	}
+	fmt.Println()
 }
