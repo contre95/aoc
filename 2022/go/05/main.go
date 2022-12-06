@@ -4,6 +4,8 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strconv"
+	"strings"
 )
 
 func inputParser(filePath string) (map[int]string, [][]int) {
@@ -22,24 +24,31 @@ func inputParser(filePath string) (map[int]string, [][]int) {
 		}
 		count := 1
 		for i := 1; i < len(line); i += 4 {
-			if _, ok := stacks[i-1]; ok {
-				stacks[count] = string(line[i]) + stacks[i-1]
+			if _, ok := stacks[count]; ok {
+				stacks[count] = string(line[i]) + stacks[count]
 			} else {
 				stacks[count] = string(line[i])
 			}
 			count++
 		}
-		fmt.Println(stacks)
-		// We are still in the first part of the input
-		//r := strings.NewReplacer("[", "", "]", "")
-		//fmt.Println(r.Replace(line))
+	}
+	for fileScanner.Scan() {
+		line := fileScanner.Text()
+		r := strings.NewReplacer("move", "", "from", "", "to", "", " ", "")
+		op := []int{}
+		for _, v := range r.Replace(line) {
+			i, _ := strconv.Atoi(string(v))
+			op = append(op, i)
+		}
+		ops = append(ops, op)
 	}
 	if err = file.Close(); err != nil {
 		fmt.Printf("Could not close the file due to this %s error \n", err)
 	}
-	return stacks, ops
+	return stacks, ops[1 : len(ops)-2]
 }
 
 func main() {
-	inputParser(os.Args[1])
+	stacks, ops := inputParser(os.Args[1])
+	fmt.Println(stacks, ops)
 }
