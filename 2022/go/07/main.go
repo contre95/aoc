@@ -27,22 +27,6 @@ func inputParser(filePath string) []string {
 	return input
 }
 
-type Tree map[string]*Dir
-
-type Dir struct {
-	Size int
-	Tree Tree
-}
-
-func tprint(t Tree) {
-	jsonStr, err := json.Marshal(t)
-	if err != nil {
-		log.Println(err)
-	} else {
-		fmt.Println(string(jsonStr))
-	}
-}
-
 func main() {
 	var pwd []string // Stack
 	//var all map[string]bool
@@ -51,6 +35,7 @@ func main() {
 	input := inputParser(os.Args[1])
 	//var currentDir *Dir
 	for _, cmd := range input {
+		fmt.Println(dirs)
 		if cmd[:4] == "$ cd" {
 			if cmd[5:] == ".." {
 				pwd = pwd[:len(pwd)-1]
