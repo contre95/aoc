@@ -2,11 +2,14 @@ package main
 
 import (
 	"bufio"
+	"encoding/json"
 	"fmt"
 	"os"
 	"regexp"
 	"strconv"
 	"strings"
+
+	"log"
 )
 
 func inputParser(filePath string) []string {
@@ -24,36 +27,51 @@ func inputParser(filePath string) []string {
 	return input
 }
 
-type Directory struct {
-	size int
-	dir  map[string]Directory
+type Tree map[string]*Dir
+
+type Dir struct {
+	Size int
+	Tree Tree
+}
+
+func tprint(t Tree) {
+	jsonStr, err := json.Marshal(t)
+	if err != nil {
+		log.Println(err)
+	} else {
+		fmt.Println(string(jsonStr))
+	}
 }
 
 func main() {
 	var pwd []string // Stack
-	sizes := map[string]int{}
-	dirs := map[string]Directory{}
-	count := 0
+	//var all map[string]bool
+	files := map[string]int{}
+	//root := Tree{}
 	input := inputParser(os.Args[1])
+	//var currentDir *Dir
 	for _, cmd := range input {
-		fmt.Println(sizes)
-		switch {
-		case string(cmd[0]) == "$":
-			if cmd[2:4] == "cd" {
-				if cmd[4:] != ".." {
-					pwd = append(pwd, cmd[4:]) // Push
-					sizes[pwd[len(pwd)-1]] = 0
-					dirs[cmd[4:]] = Directory{0, nil}
-				} else {
-					pwd = pwd[:len(pwd)-1] // Pop
-				}
+		if cmd[:4] == "$ cd" {
+			if cmd[5:] == ".." {
+				pwd = pwd[:len(pwd)-1]
+			} else if cmd[5:] == "/" {
+				pwd = []string{}
+			} else {
+				pwd = append(pwd, cmd[5:])
 			}
-		case regexp.MustCompile(`\d`).MatchString(string(cmd[0])):
+		} else if regexp.MustCompile(`\d`).MatchString(string(cmd[0])) { // If it starts with a number
 			size, _ := strconv.Atoi(strings.Split(cmd, " ")[0])
-			sizes[pwd[len(pwd)-1]] += size
-			if size < 100000 {
-				count += size
+			for i := 0; i < len(pwd)+1; i++ {
+				path := "/" + strings.Join(pwd[:i], "/")
+				files[path] += size
 			}
+		}
+	}
+	fmt.Println(files)
+	count := 0
+	for _, s := range files {
+		if s < 100000 {
+			count += s
 		}
 	}
 	fmt.Println(count)
