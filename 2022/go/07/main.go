@@ -2,14 +2,11 @@ package main
 
 import (
 	"bufio"
-	"encoding/json"
 	"fmt"
 	"os"
 	"regexp"
 	"strconv"
 	"strings"
-
-	"log"
 )
 
 func inputParser(filePath string) []string {
