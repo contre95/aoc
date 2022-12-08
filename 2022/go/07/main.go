@@ -46,7 +46,7 @@ func tprint(t Tree) {
 func main() {
 	var pwd []string // Stack
 	//var all map[string]bool
-	files := map[string]int{}
+	dirs := map[string]int{}
 	//root := Tree{}
 	input := inputParser(os.Args[1])
 	//var currentDir *Dir
@@ -63,16 +63,25 @@ func main() {
 			size, _ := strconv.Atoi(strings.Split(cmd, " ")[0])
 			for i := 0; i < len(pwd)+1; i++ {
 				path := "/" + strings.Join(pwd[:i], "/")
-				files[path] += size
+				dirs[path] += size
 			}
 		}
 	}
-	fmt.Println(files)
+	fmt.Println(dirs)
 	count := 0
-	for _, s := range files {
-		if s < 100000 {
-			count += s
+	for _, d := range dirs {
+		if d < 100000 {
+			count += d
 		}
 	}
+	smallest := dirs["/"]
+	spaceNeeded := 30000000 - (70000000 - dirs["/"])
+	for _, d := range dirs {
+		if d >= spaceNeeded && d <= smallest {
+			smallest = d
+		}
+
+	}
 	fmt.Println(count)
+	fmt.Println(smallest)
 }
