@@ -40,11 +40,39 @@ func main() {
 	forest := part()
 	count := len(forest)*4 - 4
 	i := 1
-	j := 1
 	n := len(forest)
-	for i > n && j > n {
-		count++
+	for i < n-1 {
+		j := 1
+		for j < n-1 {
+			isHidden := []bool{false, false, false, false}
+			fmt.Printf("%d ", forest[i][j])
+			for x := 0; x < i; x++ {
+				if forest[x][j] >= forest[i][j] {
+					isHidden[0] = true
+				}
+			}
+			for x := i + 1; x < n; x++ {
+				if forest[x][j] >= forest[i][j] {
+					isHidden[1] = true
+				}
+			}
+			for y := 0; y < j; y++ {
+				if forest[i][y] >= forest[i][j] {
+					isHidden[2] = true
+				}
+			}
+			for y := j + 1; y < n; y++ {
+				if forest[i][y] >= forest[i][j] {
+					isHidden[3] = true
+				}
+			}
+			if !isHidden[0] || !isHidden[1] || !isHidden[2] || !isHidden[3] {
+				count++
+			}
+			j++
+		}
+		fmt.Println()
 		i++
-		j++
 	}
+	fmt.Println(count)
 }
