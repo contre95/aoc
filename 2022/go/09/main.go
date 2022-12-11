@@ -32,57 +32,26 @@ func inputParser(filePath string) []Motion {
 }
 
 func main() {
-	a := map[string]int{"R": 1, "L": -1, "U": 1, "D": -1}
+	a := map[string][]int{"R": {1, 0}, "L": {-1, 0}, "U": {0, 1}, "D": {0, -1}}
 	motions := inputParser(os.Args[1])
-	ih := 0
-	jh := 0
-	it := 0
-	jt := 0
+	fmt.Println(len(motions))
+	ih, jh, it, jt := 0, 0, 0, 0
 	positions := map[string]bool{}
-	var ud, lr int
-	fmt.Println(ud, lr)
-	//fmt.Println(positions)
 	for _, motion := range motions {
 		for x := 0; x < motion.module; x++ {
-			// Update H
-			if motion.direction == "R" || motion.direction == "L" {
-				ih += a[motion.direction]
-				lr = a[motion.direction] // Save -1 or +1 to know last direction
-			} else {
-				jh += a[motion.direction]
-				ud = a[motion.direction]
-			}
-			// Update T
+			ih += a[motion.direction][0]
+			jh += a[motion.direction][1]
 			touching := math.Abs(float64(jt)-float64(jh)) <= 1 && math.Abs(float64(it)-float64(ih)) <= 1
 			if !touching {
-				if math.Abs(float64(jt)-float64(jh)) >= 2 {
-					if math.Abs(float64(it)-float64(ih)) >= 1 {
-						it += lr
-					}
-					jt += a[motion.direction]
+				if it != ih {
+					it += (ih - it) / int(math.Abs(float64(ih)-float64(it)))
 				}
-				if math.Abs(float64(it)-float64(ih)) >= 2 {
-					if math.Abs(math.Abs(float64(jt)-float64(jh))) >= 1 {
-						jt += ud // Increment/Decrement in one depending weather I was going up or down
-					}
-					it += a[motion.direction]
+				if jt != jh {
+					jt += (jh - jt) / int(math.Abs(float64(jh)-float64(jt)))
 				}
 			}
-				positions[strconv.Itoa(it)+strconv.Itoa(jt)] = true
+			positions[strconv.Itoa(it)+strconv.Itoa(jt)] = true
 		}
 	}
-	if os.Args[1] == "sample" {
-		for a := 0; a < 6; a++ {
-			for b := 0; b < 5; b++ {
-				if positions[strconv.Itoa(a)+strconv.Itoa(b)] {
-					fmt.Printf("#")
-				} else {
-					fmt.Printf(".")
-				}
-			}
-			fmt.Println()
-		}
-	}
-
 	fmt.Println(len(positions))
 }
