@@ -43,25 +43,29 @@ func main() {
 	for _, motion := range motions {
 		//fmt.Println(positions)
 		for x := 0; x < motion.module; x++ {
-			// Update H
-			if motion.direction == "R" || motion.direction == "L" {
-				ih += a[motion.direction]
-				lr = a[motion.direction] // Save -1 or +1 to know last direction
-			} else {
-				jh += a[motion.direction]
-				ud = a[motion.direction]
-			}
+          // Update H
+          if motion.direction == "R" || motion.direction == "L" {
+            ih += a[motion.direction]
+            lr = a[motion.direction] // Save -1 or +1 to know last direction
+          } else {
+            jh += a[motion.direction]
+            ud = a[motion.direction]
+          }
 			// Update T
-			if math.Abs(float64(jt)-float64(jh)) >= 2 {
-				jt += a[motion.direction]
-				if math.Abs(float64(it)-float64(ih)) >= 1 {
-					it += lr
+			if motion.direction == "D" || motion.direction == "U" {
+				if math.Abs(float64(jt)-float64(jh)) >= 2 {
+					jt += a[motion.direction]
+					if math.Abs(float64(it)-float64(ih)) >= 1 {
+						it += lr
+					}
 				}
 			}
-			if math.Abs(float64(it)-float64(ih)) >= 2 {
-				it += a[motion.direction]
-				if math.Abs(math.Abs(float64(jt)-float64(jh))) >= 1 {
-					jt += ud // Increment/Decrement in one depending weather I was going up or down
+			if motion.direction == "D" || motion.direction == "U" {
+				if math.Abs(float64(it)-float64(ih)) >= 2 {
+					it += a[motion.direction]
+					if math.Abs(math.Abs(float64(jt)-float64(jh))) >= 1 {
+						jt += ud // Increment/Decrement in one depending weather I was going up or down
+					}
 				}
 			}
 			positions[strconv.Itoa(it)+strconv.Itoa(jt)] = true // Save position
