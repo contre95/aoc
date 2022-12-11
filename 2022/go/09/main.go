@@ -50,7 +50,7 @@ func main() {
 					jt += (jh - jt) / int(math.Abs(float64(jh)-float64(jt)))
 				}
 			}
-			positions[strconv.Itoa(it)+strconv.Itoa(jt)] = true
+			positions[strconv.Itoa(it)+"-"+strconv.Itoa(jt)] = true
 		}
 	}
 	fmt.Println(len(positions))

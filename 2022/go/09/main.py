@@ -6,7 +6,6 @@ with open(f"./{sys.argv[1]}") as f:
     lines = f.read().strip().split("\n")
     ih, jh, it, jt  = 0,0,0,0
     positions = set()
-    print(len(lines))
     for line in lines:
         direc, module = line.split(" ")
         for _ in range(0,int(module)):
@@ -18,5 +17,6 @@ with open(f"./{sys.argv[1]}") as f:
                     it += (ih - it) / abs(ih-it)
                 if  jt!=jh:
                     jt += (jh - jt) / abs(jh-jt)
-            positions.add((it,jt))
+            positions.add(f"{int(it)}-{int(jt)}")
+
 print(len(positions))
