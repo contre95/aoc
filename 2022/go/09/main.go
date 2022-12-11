@@ -51,21 +51,25 @@ func main() {
 				jh += a[motion.direction]
 				ud = a[motion.direction]
 			}
+
 			// Update T
-			if math.Abs(float64(jt)-float64(jh)) >= 2 {
-				jt += a[motion.direction]
-				if math.Abs(float64(it)-float64(ih)) >= 1 {
-					it += lr
-				}
-			}
-			if math.Abs(float64(it)-float64(ih)) >= 2 {
-				it += a[motion.direction]
-				if math.Abs(math.Abs(float64(jt)-float64(jh))) >= 1 {
-					jt += ud // Increment/Decrement in one depending weather I was going up or down
-				}
-			}
 			positions[strconv.Itoa(it)+strconv.Itoa(jt)] = true // Save position
 
+			if motion.direction == "U" || motion.direction == "D" {
+				if math.Abs(float64(jt)-float64(jh)) >= 2 {
+					jt += a[motion.direction]
+					if math.Abs(float64(it)-float64(ih)) >= 1 {
+						it += lr
+					}
+				}
+			} else {
+				if math.Abs(float64(it)-float64(ih)) >= 2 {
+					it += a[motion.direction]
+					if math.Abs(math.Abs(float64(jt)-float64(jh))) >= 1 {
+						jt += ud // Increment/Decrement in one depending weather I was going up or down
+					}
+				}
+			}
 		}
 	}
 	fmt.Println(len(positions))
