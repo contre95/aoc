@@ -40,6 +40,7 @@ func main() {
 	jt := 0
 	positions := map[string]bool{}
 	var ud, lr int
+	fmt.Println(ud, lr)
 	//fmt.Println(positions)
 	for _, motion := range motions {
 		for x := 0; x < motion.module; x++ {
@@ -52,27 +53,24 @@ func main() {
 				ud = a[motion.direction]
 			}
 			// Update T
-			td := math.Abs(float64(jt)-float64(jh)) + math.Abs(float64(it)-float64(ih))
-			if math.Abs(float64(jt)-float64(jh)) >= 2 {
-				jt += a[motion.direction]
-			}
-			if td == 3 && (motion.direction == "R" || motion.direction == "L") {
-				if math.Abs(math.Abs(float64(jt)-float64(jh))) >= 1 {
-					jt += ud // Increment/Decrement in one depending weather I was going up or down
+			touching := math.Abs(float64(jt)-float64(jh)) <= 1 && math.Abs(float64(it)-float64(ih)) <= 1
+			if !touching {
+				if math.Abs(float64(jt)-float64(jh)) >= 2 {
+					if math.Abs(float64(it)-float64(ih)) >= 1 {
+						it += lr
+					}
+					jt += a[motion.direction]
+				}
+				if math.Abs(float64(it)-float64(ih)) >= 2 {
+					if math.Abs(math.Abs(float64(jt)-float64(jh))) >= 1 {
+						jt += ud // Increment/Decrement in one depending weather I was going up or down
+					}
+					it += a[motion.direction]
 				}
 			}
-			if td == 3 && (motion.direction == "U" || motion.direction == "D") {
-				if math.Abs(float64(it)-float64(ih)) >= 1 {
-					it += lr
-				}
-			}
-			if math.Abs(float64(it)-float64(ih)) >= 2 {
-				it += a[motion.direction]
-			}
-			positions[strconv.Itoa(it)+strconv.Itoa(jt)] = true
+				positions[strconv.Itoa(it)+strconv.Itoa(jt)] = true
 		}
 	}
-	// Sample
 	if os.Args[1] == "sample" {
 		for a := 0; a < 6; a++ {
 			for b := 0; b < 5; b++ {
@@ -85,5 +83,6 @@ func main() {
 			fmt.Println()
 		}
 	}
+
 	fmt.Println(len(positions))
 }
